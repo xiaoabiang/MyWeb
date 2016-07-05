@@ -133,14 +133,16 @@ function refresh() {
 
 function toSmartDate(timestamp) {
     if (typeof(timestamp)==='string') {
-        timestamp = parseInt(timestamp);
+        timestamp = parseFloat(timestamp);
+        if (timestamp < 10000000000)
+            timestamp = Math.floor(parseFloat(timestamp) * 1000);
     }
     if (isNaN(timestamp)) {
         return '';
     }
 
     var
-        today = new Date(g_time),
+        today = new Date(),
         now = today.getTime(),
         s = '1分钟前',
         t = now - timestamp;
@@ -448,7 +450,7 @@ function redirect(url) {
 ////});
 
 $(function() {
-    if (location.pathname === '/' || location.pathname.indexOf('/blog')===0) {
+    if (location.pathname.indexOf('/blog')===0) {
         $('li[data-url=blogs]').addClass('uk-active');
     }
 });

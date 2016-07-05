@@ -34,8 +34,8 @@ class BlogForm(Form):
     编辑blog
     '''
     name = NewStringField('标题', validators=(DataRequired(), Length(1, 50),))
-    summary = PageDownField('摘要', validators=(Length(0, 200),))
-    content = PageDownField('内容', validators=(DataRequired(),))
+    summary = TextAreaField('摘要', validators=(Length(0, 200),))
+    content = TextAreaField('内容', validators=(DataRequired(),))
 
 
 class ShowBlogForm(Form):
@@ -47,7 +47,6 @@ class ShowBlogForm(Form):
     name = NewStringField('标题', validators=(DataRequired(), Length(1, 50),))
     summary = PageDownField('摘要', validators=(Length(0, 200),))
     content = PageDownField('内容', validators=(DataRequired(),))
-
 
 
 if __name__ == '__main__':

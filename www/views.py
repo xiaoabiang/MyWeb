@@ -97,6 +97,7 @@ def register():
         user.name = form.name.data
         user.email = form.email.data
         user.isconfirmed = False
+        user.image = "/static/img/user.png"
         user.passwd = generate_password_hash(form.password.data.strip())
         rows = user.save()
         if rows != 1:
@@ -258,9 +259,14 @@ def user_image_update():
 
 @app.route('/blogshow/<id>')
 def blog_show(id):
-    blog = Blog.find(id)
-    blog.created_at = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(blog.created_at))
-    return render_template('blog_show.html', user=g.user, blog=blog)
+    try:
+        blog = Blog.find(id)
+        if not blog:
+            raise BaseException('Can\'nt find blog')
+        blog.created_at = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(blog.created_at))
+        return render_template('blog_show.html', user=g.user, blog=blog)
+    except BaseException as e:
+        warning(e)
 
 
 @app.route('/blog/comments', methods=['GET'])
@@ -291,6 +297,14 @@ def comments_update():
     except BaseException as e:
         warning(e)
         return json.dumps(None).encode('utf-8')
+
+
+@app.route('/userview/<id>')
+def userview(id):
+    user = User.find(id)
+    if g.user is not None and g.user.is_authenticated:
+        return render_template('userview.html', userview=user, user=g.user)
+    return render_template('userview.html', userview=user)
 
 
 @app.route('/test')

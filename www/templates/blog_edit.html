@@ -3,7 +3,17 @@
 {% block title %}编辑日志{% endblock %}
 
 {% block beforehead %}
+<link rel="stylesheet" href="/static/css/codemirror.css">
+<script src="/static/js/codemirror.js"></script>
+<script src="/static/js/markdown.js"></script>
+<script src="/static/js/overlay.js"></script>
+<script src="/static/js/xml.js"></script>
+<script src="/static/js/gfm.js"></script>
+<script src="/static/js/marked.js"></script>
 
+
+<script src="/static/js/components/htmleditor.js"></script>
+<link rel="stylesheet" href="/static/css/components/htmleditor.css">
 <script>
 
 var
@@ -11,7 +21,7 @@ var
     action = '{{ action }}';
 
 function initVM(blog) {
-    var vm = new Vue({
+    vm = new Vue({
         el: '#vm',
         data: blog
     });
@@ -23,6 +33,7 @@ $(function () {
     $('#loading').hide();
     if (blog)
     {
+        blog = parseJSON(blog)
         initVM({
             name :'{{ blog.name }}',
             summary:'{{ blog.summary }}',
@@ -81,8 +92,8 @@ $(function () {
             </div>
             <div class="uk-form-row">
                  {{ form.content.label(class="uk-form-label") }}
-                <div class="uk-form-controls">
-                    {{ form.content(class="uk-width-1-1", **{'rows':'16', 'v-model':'content',  'placeholder':'正文',  'style':'resize:none;'}) }}
+                <div class="uk-htmleditor-code">
+                    {{ form.content(class="uk-width-1-1", **{"v-model":"content", "data-uk-htmleditor":"{maxsplitsize:600}","data-uk-check-display":"1","style":"display: none;"}) }}
                 </div>
             </div>
             <div class="uk-form-row">

@@ -1,0 +1,35 @@
+{% extends '__base__.html' %}
+
+{% block title %}{{ userview.name }} - 蜂韵{% endblock %}
+
+{% block beforehead %}
+
+<script>
+$(function()
+{
+   if ('{{ userview.image }}' === '')
+   {
+        $('#headimage>img').attr("src",'/static/img/user.png');
+   }
+});
+
+$(function()
+{
+    var num = '{{ userview.created_at }}';
+    $('#edit>label').html(Number(num).toDateTime());
+})
+</script>
+
+
+{% endblock %}
+{% block content %}
+<div id="edit">
+    <div id="headimage" class="uk-form-row">
+        <image src="{{ userview.image }}" height="60" width="60"></image>
+    </div>
+    <h3>{{ userview.name }}</h3>
+    <h3>注册日期</h3>
+    <label></label>
+    </br>
+</div>
+{% endblock %}

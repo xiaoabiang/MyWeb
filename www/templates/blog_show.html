@@ -6,17 +6,17 @@
 
 
 <!-- Codemirror 和 marked 依赖 -->
-<link rel="stylesheet" href="/static/css/codemirror.css" xmlns:v-on="http://www.w3.org/1999/xhtml">
-    <script src="/static/js/codemirror.js"></script>
-    <script src="/static/js/markdown.js"></script>
-    <script src="/static/js/overlay.js"></script>
-    <script src="/static/js/xml.js"></script>
-    <script src="/static/js/gfm.js"></script>
-    <script src="/static/js/marked.js"></script>
+<link rel="stylesheet" href="/static/css/codemirror.css">
+<script src="/static/js/codemirror.js"></script>
+<script src="/static/js/markdown.js"></script>
+<script src="/static/js/overlay.js"></script>
+<script src="/static/js/xml.js"></script>
+<script src="/static/js/gfm.js"></script>
+<script src="/static/js/marked.js"></script>
 
 
-    <script src="/static/js/components/htmleditor.js"></script>
-    <link rel="stylesheet" href="/static/css/components/htmleditor.css">
+<script src="/static/js/components/htmleditor.js"></script>
+<link rel="stylesheet" href="/static/css/components/htmleditor.css">
 <script>
 function initVM(data)
 {
@@ -89,13 +89,22 @@ $(function() {
             <div id="loading" class="uk-width-1-1 uk-text-center">
                 <span><i class="uk-icon-spinner uk-icon-medium uk-icon-spin"></i> 正在加载...</span>
             </div>
+            </br>
+            <lable>评论</lable>
+            <br>
             <div id="Comment">
                 <article class="uk-comment" v-for="comment in comments">
                     <ul>
                         <header class="uk-comment-header">
-                            <img class="uk-comment-avatar" v-attr="src:'comment.user_image'" alt="">
+                            {% raw %}
+                            <img class="uk-comment-avatar" :src="comment.user_image" alt="" height="50" width="50">
                             <h4 class="uk-comment-title" v-text="comment.title"></h4>
-                            <div class="uk-comment-meta"><span class="uk-align-right" v-text="comment.created_at.toSmartTime()"></span></div>
+                            <div class="uk-comment-meta">
+                                <a class="uk-align-left" href="/userview/{{ comment.user_id }}" v-text="comment.user_name"></a>
+                                <lable>发表于</lable>
+                                <span class="uk-align-right" v-text="comment.created_at.toSmartTime()"></span>
+                            </div>
+                            {% endraw %}
                         </header>
                         <div class="uk-comment-body">
                             <p><span v-text="comment.content"></span></p>
