@@ -1,0 +1,55 @@
+{% extends '__base__.html' %}
+
+{% block beforehead %}
+<script>
+
+$(function()
+{
+    vm = new Vue({
+        el: '#app',
+        data: {
+            todos: [
+                {text: 'Learn JavaScript'},
+                {text: 'Learn Vue.js'},
+                {text: 'Build Something Awesome'}
+            ]
+        },
+        methods:
+        {
+            remave:function(){
+                this.todos =null;
+                this.todos = [
+                    {text: 'Learn Vue.js'},
+                    {text: 'Build Something Awesome'},
+                    {text: 'New Item'},
+                    {text: 'Learn JavaScript'}
+                ];
+            }
+        }
+    });
+});
+
+Vue.component('child', {
+    // 声明 props
+    props: ['msg', 'mv'],
+    // prop 可以用在模板内
+    // 可以用 `this.msg` 设置
+    template: '<span v-text="msg"></span>'+
+            '</br>'+
+            '<span v-text="mv"></span>'
+});
+</script>
+{% endblock %}
+
+{% block content %}
+<div id="app">
+  <ul>
+    <li v-for="todo in todos">
+      <span v-text="todo.text" style="color: red"></span>
+    </li>
+    <button v-on:click="remave()">测试</button>
+  </ul>
+  </br>
+  <child msg="哈哈" mv="呵呵"></child>
+</div>
+{% endblock %} {text: 'Build Something Awesome'}

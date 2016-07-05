@@ -1,0 +1,21 @@
+{% extends "__base__.html" %}
+
+{% block content %}
+
+<div>
+    <h1>欢迎登录!</h1>
+    <form action="" method="post" name="login" class="uk-form uk-form-stacked">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }}</p>
+        <p>{{ form.name(class="uk-form uk-form-stacked") }}
+            <br>{% for error in form.name.errors %}
+            <span style="color: red;">[名称不能为空]</span>
+            {% endfor %}</br></p>
+        <p>{{ form.password.label }}</p>
+        <p>
+            {{ form.password(class="uk-form uk-form-stacked") }}</p>
+        <p><input type="submit" class="uk-button uk-button-primary" value="登录"></p>
+
+    </form>
+</div>
+{% endblock %}

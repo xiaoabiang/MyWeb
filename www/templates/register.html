@@ -1,0 +1,38 @@
+{% extends "__base__.html" %}
+
+{% block content %}
+
+<div>
+    <h1>欢迎注册!</h1>
+    <form action="" method="post" name="login" class="uk-form uk-form-stacked">
+        {{ form.hidden_tag() }}
+        <p>{{ form.name.label }}</p>
+        <p>{{ form.name(class="uk-form uk-form-stacked") }}
+            <br>{% for error in form.name.errors %}
+            <span style="color: red;">[名称不能为空]</span>
+            {% endfor %}</br></p>
+        <p>{{ form.email.label }}</p>
+        <p>{{ form.email(class="uk-form uk-form-stacked") }}
+            <br>{% for error in form.email.errors %}
+            <span style="color: red;">[{{ error }}]</span>
+            {% endfor %}</br></p>
+        <p>{{ form.password.label }}
+        </p>
+        <p>
+            {{ form.password(class="uk-form uk-form-stacked") }}
+            <br>
+             {% for error in form.password.errors %}
+            <span style="color: red;">[密码不得少于6位]</span>
+            {% endfor %}</br>
+        </p>
+        <p>{{ form.passwordagain.label }}</p>
+        <p>{{ form.passwordagain(class="uk-form uk-form-stacked") }}
+            <br>
+             {% for error in form.passwordagain.errors %}
+            <span style="color: red;">[{{error}}]</span>
+            {% endfor %}</br></p>
+        <p><input type="submit" class="uk-button uk-button-primary" value="注册"></p>
+
+    </form>
+</div>
+{% endblock %}

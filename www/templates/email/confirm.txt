@@ -1,0 +1,7 @@
+Dear {{ user.name }},
+    欢迎来到蜂韵!
+    请按下面的链接完成注册:
+    {{ url_for('confirm', id=id, _external=True) }}
+    谢谢!
+    蜂韵!
+提示: 请不要回复此邮件.

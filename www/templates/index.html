@@ -1,0 +1,78 @@
+{% extends '__base__.html' %}
+
+{% block title %}蜂韵博客־{% endblock %}
+
+{% block beforehead %}
+
+<script>
+
+    function initVM(data) {
+        if(typeof(vueobject) !== 'undefined')
+        {
+            vueobject.blogs = data.blogs;
+            vueobject.page = data.page;
+        }
+        else{
+             vueobject = new Vue({
+                el: '#vm',
+                data: {
+                    blogs: data.blogs,
+                    page: data.page
+                }
+            });
+            $('#vm').show();
+        }
+    }
+    $(function() {
+        var index = '{{ page_index }}'||'1'
+        getJSON('/blog/view', {
+            page: index
+        }, function (err, results) {
+            if (err) {
+                return fatal(err);
+            }
+            $('#loading').hide();
+            initVM(results);
+        });
+    });
+</script>
+
+{% endblock %}
+
+{% block content %}
+                <div id="loading" class="uk-width-1-1 uk-text-center">
+                    <span><i class="uk-icon-spinner uk-icon-medium uk-icon-spin"></i> 正在加载中...</span>
+                </div>
+
+                <div id="vm" class="uk-width-1-1">
+                    <table class="uk-table uk-table-hover">
+                        <tbody>
+                        <tr v-for="blog in blogs">
+                            <td>
+                                <a target="_blank" hidefocus="true" href="http://yixianrongblog.blog.163.com/">
+                                    <img class="cwd atag" src="blog.user_image">
+                                </a>
+                            </td>
+                            <td>
+                                <span class="pre">
+                                    <a target="_blank" v-attr="href:'/user/'+blog.user_id" class="uk-align-left" v-text="blog.name"></a>
+                                    &nbsp;
+                                    <span>
+                                        发表日志
+                                    </span>
+                                    &nbsp;
+                                    <span>
+                                        <a target="_blank" href="http://yixianrongblog.blog.163.com/blog/static/4578380920165271413405/?newFollowBlog" v-text="blog.name"> </a>
+                                    </span>
+                                </span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                    <div id="pagination">
+                        <pagination v-bind:page="page" ></pagination>
+                    </div>
+                </div>
+
+{% endblock %}

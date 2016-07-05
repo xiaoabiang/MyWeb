@@ -1,0 +1,114 @@
+{% extends '__base__.html' %}
+
+{% block title %}用户资料编辑־{% endblock %}
+
+{% block beforehead %}
+
+<link rel="stylesheet" href="/static/css/components/upload.css">
+<link rel="stylesheet" href="/static/css/components/placeholder.css">
+<link rel="stylesheet" href="/static/css/components/form-file.css">
+<link rel="stylesheet" href="/static/css/components/progress.css">
+<script>
+//上传文件进度条提示
+$(function(){
+    var progressbar = $("#progressbar"),
+        bar         = progressbar.find('.uk-progress-bar'),
+        settings    = {
+
+        action: '/user/image/update', // 上传路径 url
+
+        allow : '*.(jpg|jpeg|gif|png)', // 只允许上传图片
+
+        loadstart: function() {
+            bar.css("width", "0%").text("0%");
+            progressbar.removeClass("uk-hidden");
+        },
+
+        progress: function(percent) {
+            percent = Math.ceil(percent);
+            bar.css("width", percent+"%").text(percent+"%");
+        },
+
+        allcomplete: function(response) {
+
+            bar.css("width", "100%").text("100%");
+
+            setTimeout(function(){
+                progressbar.addClass("uk-hidden");
+            }, 250);
+            obj = JSON.parse(response)
+            if(obj.flag)
+            {
+                alert("Upload Completed");
+                $('#headimage>img').attr("src",obj.userimage);
+                $('#vm').show();
+            }
+        }
+    };
+
+    var select = UIkit.uploadSelect($("#upload-select"), settings),
+        drop   = UIkit.uploadDrop($("#upload-drop"), settings);
+});
+
+$(function()
+{
+   if ('{{ user.image }}' === '')
+   {
+        $('#headimage>img').attr("src",'/static/img/user.png');
+   }
+});
+
+</script>
+
+
+{% endblock %}
+
+{% block content %}
+<div id="edit">
+    <h1>用户资料编辑!</h1>
+    <div id="headimage" class="uk-form-row">
+        <image src="{{ user.image }}" height="60" width="60"></image>
+    </div>
+    <div class="uk-form-row">
+
+        <div id="upload-drop" >
+            <a class="uk-form-file">更换头像<input id="upload-select" type="file" name="test" class="uk-button uk-button-primary"></a>
+        </div>
+        <!--<a class="uk-form-file">选择一个文件<input id="upload-select" type="file" name="test"></a>-->
+
+        <div id="progressbar" class="uk-progress uk-hidden">
+            <div class="uk-progress-bar" style="width: 100%;">100%</div>
+        </div>
+    </div>
+    </br>
+   <form method="post" name="updatedata" class="uk-form uk-form-stacked">
+        {{ form.hidden_tag() }}
+       <div class="uk-form-row">
+            {{ form.name.label(class="uk-form-label") }}
+            <div class="uk-form-controls">
+                {{ form.name(class="uk-form uk-form-stack", **{'placeholder':user.name}) }}
+                <br>{% for error in form.name.errors %}
+                    <span style="color: red;">[标题不能为空]</span>
+                {% endfor %}</br>
+            </div>
+        </div>
+        <div class="uk-form-row">
+            {{ form.email.label(class="uk-form-label") }}
+            <div class="uk-form-controls">
+                {{ form.email(class="uk-form uk-form-stack", **{'placeholder':user.email,  'style':'resize:none;'}) }}
+            </div>
+        </div>
+        <div class="uk-form-row" hidden="true">
+             {{ form.image.label(class="uk-form-label") }}
+            <div class="uk-form-controls">
+                {{ form.image(class="uk-form uk-form-stack", **{'placeholder':user.image,  'style':'resize:none;'}) }}
+            </div>
+        </div>
+        <div class="uk-form-row">
+            <button type="submit" class="uk-button uk-button-primary"><i class="uk-icon-save"></i>保存</button>
+            <a href="/index" class="uk-button"><i class="uk-icon-times"></i> 取消</a>
+        </div>
+    </form>
+
+</div>
+{% endblock %}
