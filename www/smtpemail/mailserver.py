@@ -5,14 +5,16 @@ __author__ = 'Administrator'
 from flask_mail import Mail, Message
 from flask import render_template
 from www import app
+from config import MAIL_SEVER_INFO
 from threading import Thread
 from logging import warning
 
-app.config['MAIL_SERVER'] = 'smtp.163.com'
-app.config['MAIL_PORT'] = 25
-app.config['MAIL_USERNAME'] = 'zhujianbang2007@163.com'
-app.config['MAIL_PASSWORD'] = 'lyq220809'
-app.config['MAIL_USE_TLS'] = True
+
+app.config['MAIL_SERVER'] = MAIL_SEVER_INFO['MAIL_SERVER']
+app.config['MAIL_PORT'] = MAIL_SEVER_INFO['MAIL_PORT']
+app.config['MAIL_USERNAME'] = MAIL_SEVER_INFO['MAIL_USERNAME']
+app.config['MAIL_PASSWORD'] = MAIL_SEVER_INFO['MAIL_PASSWORD']
+app.config['MAIL_USE_TLS'] =  MAIL_SEVER_INFO['MAIL_USE_TLS']
 
 
 mail = Mail(app)

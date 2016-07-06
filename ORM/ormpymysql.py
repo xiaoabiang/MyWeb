@@ -7,6 +7,7 @@ __author__ = 'Administrator'
 import logging
 import pymysql
 import threading
+from config import DBINFO
 
 __author__ = 'Administrator'
 
@@ -33,12 +34,12 @@ class LazyConnection:
 
 def create_connect(**kw):
     logging.info('create database connection')
-    conn = LazyConnection(host=kw.get('host', '127.0.0.1'),
-                          port=kw.get('port', 3306),
-                          user=kw.get('user', 'xiaoabiang'),
-                          password=kw.get('password', 'xiaoabiang'),
-                          db=kw.get('db', 'awesome'),
-                          charset=kw.get('charset', 'utf8mb4'),
+    conn = LazyConnection(host=kw.get('host', DBINFO['host']),
+                          port=kw.get('port', DBINFO['port']),
+                          user=kw.get('user', DBINFO['user']),
+                          password=kw.get('password', DBINFO['password']),
+                          db=kw.get('db', DBINFO['db']),
+                          charset=kw.get('charset', DBINFO['charset']),
                           cursorclass=pymysql.cursors.DictCursor)
     return conn
 

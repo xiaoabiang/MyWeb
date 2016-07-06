@@ -33,7 +33,6 @@ $(function () {
     $('#loading').hide();
     if (blog)
     {
-        blog = parseJSON(blog)
         initVM({
             name :'{{ blog.name }}',
             summary:'{{ blog.summary }}',
@@ -93,7 +92,7 @@ $(function () {
             <div class="uk-form-row">
                  {{ form.content.label(class="uk-form-label") }}
                 <div class="uk-htmleditor-code">
-                    {{ form.content(class="uk-width-1-1", **{"v-model":"content", "data-uk-htmleditor":"{maxsplitsize:600}","data-uk-check-display":"1","style":"display: none;"}) }}
+                    {{ form.content(class="uk-width-1-1", **{"v-html":"content", "data-uk-htmleditor":"{maxsplitsize:600}","data-uk-check-display":"1","style":"display: none;"}) }}
                 </div>
             </div>
             <div class="uk-form-row">

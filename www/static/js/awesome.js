@@ -88,6 +88,48 @@ if (! Number.prototype.toDateTime) {
     };
 }
 
+if (! Number.prototype.toSmartDate) {
+    Number.prototype.toSmartDate = function() {
+        var timestamp = parseFloat(this);
+        if (timestamp < 10000000000){
+            timestamp = Math.floor(parseFloat(timestamp) * 1000);
+        }
+        if (isNaN(timestamp)) {
+            return '';
+        }
+
+        var
+            today = new Date(),
+            now = today.getTime(),
+            s = '1分钟前',
+            t = now - timestamp;
+        if (t > 604800000) {
+            // 1 week ago:
+            var that = new Date(timestamp);
+            var
+                y = that.getFullYear(),
+                m = that.getMonth() + 1,
+                d = that.getDate(),
+                hh = that.getHours(),
+                mm = that.getMinutes();
+            s = y===today.getFullYear() ? '' : y + '年';
+            s = s + m + '月' + d + '日' + hh + ':' + (mm < 10 ? '0' : '') + mm;
+        }
+        else if (t >= 86400000) {
+            // 1-6 days ago:
+            s = Math.floor(t / 86400000) + '天前';
+        }
+        else if (t >= 3600000) {
+            // 1-23 hours ago:
+            s = Math.floor(t / 3600000) + '小时前';
+        }
+        else if (t >= 60000) {
+            s = Math.floor(t / 60000) + '分钟前';
+        }
+        return s;
+    };
+}
+
 function encodeHtml(str) {
     return String(str)
         .replace(/&/g, '&amp;')
@@ -130,55 +172,55 @@ function refresh() {
     }
     location.assign(url);
 }
+//
+//function toSmartDate(timestamp) {
+//    if (typeof(timestamp)==='string') {
+//        timestamp = parseFloat(timestamp);
+//        if (timestamp < 10000000000)
+//            timestamp = Math.floor(parseFloat(timestamp) * 1000);
+//    }
+//    if (isNaN(timestamp)) {
+//        return '';
+//    }
+//
+//    var
+//        today = new Date(),
+//        now = today.getTime(),
+//        s = '1分钟前',
+//        t = now - timestamp;
+//    if (t > 604800000) {
+//        // 1 week ago:
+//        var that = new Date(timestamp);
+//        var
+//            y = that.getFullYear(),
+//            m = that.getMonth() + 1,
+//            d = that.getDate(),
+//            hh = that.getHours(),
+//            mm = that.getMinutes();
+//        s = y===today.getFullYear() ? '' : y + '年';
+//        s = s + m + '月' + d + '日' + hh + ':' + (mm < 10 ? '0' : '') + mm;
+//    }
+//    else if (t >= 86400000) {
+//        // 1-6 days ago:
+//        s = Math.floor(t / 86400000) + '天前';
+//    }
+//    else if (t >= 3600000) {
+//        // 1-23 hours ago:
+//        s = Math.floor(t / 3600000) + '小时前';
+//    }
+//    else if (t >= 60000) {
+//        s = Math.floor(t / 60000) + '分钟前';
+//    }
+//    return s;
+//}
 
-function toSmartDate(timestamp) {
-    if (typeof(timestamp)==='string') {
-        timestamp = parseFloat(timestamp);
-        if (timestamp < 10000000000)
-            timestamp = Math.floor(parseFloat(timestamp) * 1000);
-    }
-    if (isNaN(timestamp)) {
-        return '';
-    }
-
-    var
-        today = new Date(),
-        now = today.getTime(),
-        s = '1分钟前',
-        t = now - timestamp;
-    if (t > 604800000) {
-        // 1 week ago:
-        var that = new Date(timestamp);
-        var
-            y = that.getFullYear(),
-            m = that.getMonth() + 1,
-            d = that.getDate(),
-            hh = that.getHours(),
-            mm = that.getMinutes();
-        s = y===today.getFullYear() ? '' : y + '年';
-        s = s + m + '月' + d + '日' + hh + ':' + (mm < 10 ? '0' : '') + mm;
-    }
-    else if (t >= 86400000) {
-        // 1-6 days ago:
-        s = Math.floor(t / 86400000) + '天前';
-    }
-    else if (t >= 3600000) {
-        // 1-23 hours ago:
-        s = Math.floor(t / 3600000) + '小时前';
-    }
-    else if (t >= 60000) {
-        s = Math.floor(t / 60000) + '分钟前';
-    }
-    return s;
-}
 
 
-
-$(function() {
-    $('.x-smartdate').each(function() {
-        $(this).removeClass('x-smartdate').text(toSmartDate($(this).attr('date')));
-    });
-});
+//$(function() {
+//    $('.x-smartdate').each(function() {
+//        $(this).removeClass('x-smartdate').text(toSmartDate($(this).attr('date')));
+//    });
+//});
 
 // JS Template:
 

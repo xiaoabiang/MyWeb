@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import json
+from markdown import markdown
 from werkzeug.utils import secure_filename
 
 __author__ = 'Administrator'
@@ -16,7 +17,7 @@ from www.smtpemail.mailserver import send_email
 import time, os
 from www.decorators import admin_required, permission_required
 from www.apis import get_page_index, Page
-from config import PRE_PAGE_NUMBER, UPLOAD_FOLDER, IMAGE_SIZE, ALLOWED_TAGS
+from config import PRE_PAGE_NUMBER, UPLOAD_FOLDER, IMAGE_SIZE
 from PIL import Image
 
 
@@ -264,6 +265,7 @@ def blog_show(id):
         if not blog:
             raise BaseException('Can\'nt find blog')
         blog.created_at = time.strftime('%Y-%m-%d %H:%M:%S', time.gmtime(blog.created_at))
+        blog.content = markdown(blog.content, output_format='html')
         return render_template('blog_show.html', user=g.user, blog=blog)
     except BaseException as e:
         warning(e)
@@ -291,6 +293,7 @@ def comments_update():
         comment = Comment(blog_id=commentdata['blog_id'], user_id=g.user.id,
                           user_name=g.user.name, user_image=g.user.image,
                           content=commentdata['content'], title=commentdata['title'])
+        comment.content = markdown(comment.content, output_format='html')
         comment.save()
         comments = Comment.find_all('blog_id=?', args=[comment.blog_id])
         return json.dumps(dict(comments=comments), ensure_ascii=False, default=lambda o: o.__dict__).encode('utf-8')

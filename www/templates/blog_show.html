@@ -1,6 +1,6 @@
 {% extends '__base__.html' %}
 
-{% block title %}{{ blog.name }}{% endblock %}
+{% block title %}{{ blog.name }} - {{ user.name }}的日志 {% endblock %}
 
 {% block beforehead %}
 
@@ -42,6 +42,7 @@ function initVM(data)
                                       return alert(err.message || err.error || err);
                                 }
                                 this.comments = r.comments;
+
                             });
                         }
                     }
@@ -78,7 +79,7 @@ $(function() {
                     <h1 class="uk-article-title">{{ blog.name }}</h1>
                     <p class="uk-article-meta"><span>{{ blog.created_at }}</span></p>
                     <p class="uk-article-lead">
-                        {{ blog.content }}
+                        {{ blog.content | safe}}
                     </p>
                     <hr class="uk-article-divider">
                 </article>
@@ -90,7 +91,9 @@ $(function() {
                 <span><i class="uk-icon-spinner uk-icon-medium uk-icon-spin"></i> 正在加载...</span>
             </div>
             </br>
-            <lable>评论</lable>
+            <h3>
+                评论
+            </h3>
             <br>
             <div id="Comment">
                 <article class="uk-comment" v-for="comment in comments">
@@ -101,27 +104,28 @@ $(function() {
                             <h4 class="uk-comment-title" v-text="comment.title"></h4>
                             <div class="uk-comment-meta">
                                 <a class="uk-align-left" href="/userview/{{ comment.user_id }}" v-text="comment.user_name"></a>
-                                <lable>发表于</lable>
-                                <span class="uk-align-right" v-text="comment.created_at.toSmartTime()"></span>
+                                <span class="uk-align-left">发表于</span>
+                                <span class="uk-align-left x-smartdate" v-text="comment.created_at.toSmartDate()"></span>
                             </div>
                             {% endraw %}
                         </header>
                         <div class="uk-comment-body">
-                            <p><span v-text="comment.content"></span></p>
+                            <p><span v-html="comment.content"></span></p>
                         </div>
                     </ul>
                 </article>
+
                 <form id="comment-form" class="uk-form" style="">
                     <fieldset>
                         <div class="uk-alert uk-alert-danger uk-hidden" style="display:none"></div>
                         <div class="uk-form-row">
-                            <label>标题:</label>
+                            <span>标题:</span>
                         </div>
                         <div class="uk-form-row">
                             <input id="comment-title" type="text" name="name" maxlength="100" style="width:100%">
                         </div>
                         <div class="uk-form-row">
-                            <label>内容:</label>
+                            <span>内容:</span>
                         </div>
                         <div class="uk-htmleditor-code">
                             <textarea id="comment-content" data-uk-htmleditor="{maxsplitsize:600}" data-uk-check-display="1" style="display: none;"></textarea>
