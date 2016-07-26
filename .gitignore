@@ -15,5 +15,5 @@ build
 __pycache__
 
 # My configurations:
-db.ini
+config.ini
 deploy_key_rsa
