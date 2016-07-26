@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 import logging
-import asyncio
 from ORM.field import Field
 from ORM.ormpymysql import select,execute
 

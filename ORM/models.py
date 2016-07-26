@@ -2,10 +2,7 @@
 import hashlib
 import time
 import uuid
-import asyncio
 from ORM.field import StringField, BooleanField, FloatField, TextField, IntegerField
-# from ORM.metaclass import Model
-# from ORM.orm import create_pool
 
 from ORM.metaclasspymysql import Model
 from flask_login import UserMixin

@@ -7,7 +7,7 @@ __author__ = 'Administrator'
 
 
 from flask import render_template, flash, request, redirect, g, url_for, session, send_from_directory
-from www import app, lm, oid
+from www import app, lm
 from www.forms import LoginForm, RegisterForm, BlogForm, UserInfoEditForm, ShowBlogForm
 from ORM.models import User, Blog, Comment, RoleMap
 from flask_login import login_user, current_user, logout_user, login_required
@@ -19,7 +19,6 @@ from www.decorators import admin_required, permission_required
 from www.apis import get_page_index, Page
 from config import PRE_PAGE_NUMBER, UPLOAD_FOLDER, IMAGE_SIZE
 from PIL import Image
-
 
 
 @app.route('/')
@@ -93,7 +92,6 @@ def register():
         return redirect(url_for('index'))
     form = RegisterForm()
     if form.validate_on_submit():
-        # return oid.try_login(form.openid.data, ask_for=['name', 'email'])
         user = User()
         user.name = form.name.data
         user.email = form.email.data
