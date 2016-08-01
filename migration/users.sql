@@ -11,3 +11,6 @@ create table users (
     key `idx_created_at` (`created_at`),
     primary key (`id`)
 ) engine=innodb default charset=utf8;
+
+
+--密码通过werkzeug.security模块的generate_password_hash加密

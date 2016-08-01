@@ -151,9 +151,9 @@ def blog_create():
     form = BlogForm()
     blog = Blog(user_id=g.user.id, user_name=g.user.name, user_image=g.user.image)
     if form.validate_on_submit():
-        blog.name = form.name.data
-        blog.summary = form.summary.data
-        blog.content = form.content.data
+        blog.name = form.name.data.strip()
+        blog.summary = form.summary.data.strip()
+        blog.content = form.content.data.strip()
         rownumber = blog.save()
         if rownumber != 1:
             return render_template('blog_edit.html',
@@ -172,12 +172,12 @@ def blog_create():
 def blog_edit(id):
     form = BlogForm()
     blog = Blog.find(id)
+    blog.content = blog.content.replace('\r', '\\r').replace('\n', '\\n')
+    blog.summary = blog.summary.replace('\r', '\\r').replace('\n', '\\n')
     if form.validate_on_submit():
-        blog.name = form.name.data
-        blog.summary = form.summary.data
-        blog.content = form.content.data
-        # blog = Blog(user_id=g.user.id, user_name=g.user.name, user_image=g.user.image,
-        #             name=form.name.data, summary=form.summary.data, content=form.content.data)
+        blog.name = form.name.data.strip()
+        blog.summary = form.summary.data.strip()
+        blog.content = form.content.data.strip()
         rownumber = blog.update()
         if rownumber != 1:
             return render_template('blog_edit.html',
