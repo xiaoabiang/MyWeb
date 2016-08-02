@@ -63,3 +63,10 @@ DBINFO['user'] = configini['DB_INFO']['user']
 DBINFO['password'] = configini['DB_INFO']['password']
 DBINFO['db'] = configini['DB_INFO']['db']
 DBINFO['charset'] = configini['DB_INFO']['charset']
+
+
+
+'''
+外部库路径
+'''
+ENV_PATH = configini['ENV_PATH']['env_path']

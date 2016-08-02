@@ -7,9 +7,9 @@ __author__ = 'Administrator'
 
 
 class ModelMetaclass(type):
-    def __new__(mcs, name, bases, attrs):
+    def __new__(cls, name, bases, attrs):
         if name == 'Model':
-            return type.__new__(mcs, name, bases, attrs)
+            return type.__new__(cls, name, bases, attrs)
         table_name = attrs.get('__table__', None) or name
         logging.info('found model: %s (table:%s)' % (name, table_name))
         mappings = dict()
@@ -38,7 +38,7 @@ class ModelMetaclass(type):
         attrs['__insert__'] = 'insert into `%s` (%s, `%s`) values (%s)' % (table_name, ', '.join(escaped_fields), primary_key, create_args_string(len(escaped_fields) + 1))
         attrs['__update__'] = 'update `%s` set %s where `%s`=?' % (table_name, ', '.join(map(lambda f: '`%s`=?' % (mappings.get(f).name or f), fields)), primary_key)
         attrs['__delete__'] = 'delete from `%s` where `%s`=?' % (table_name, primary_key)
-        return type.__new__(mcs, name, bases, attrs)
+        return type.__new__(cls, name, bases, attrs)
 
 
 def create_args_string(num):

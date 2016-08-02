@@ -60,7 +60,7 @@ def select(sql, args, size=None):
         return None
 
 
-def execute(sql, args, autocommit=False):
+def execute(sql, args=[], autocommit=False):
     log(sql)
     try:
         with create_connect() as conn:

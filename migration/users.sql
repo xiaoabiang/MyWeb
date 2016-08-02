@@ -13,4 +13,4 @@ create table users (
 ) engine=innodb default charset=utf8;
 
 
---密码通过werkzeug.security模块的generate_password_hash加密
+-- 密码通过werkzeug.security模块的generate_password_hash加密
