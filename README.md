@@ -1,6 +1,8 @@
 ##项目简介
 这是一个采用flask+vue+uikit实现的简单的博客网站,主要实现了如下功能点:
+
 #### 后端API包括：
+
 - **获取日志**：GET /blog/view/
 - **创建日志**：POST /blog/create
 - **修改日志**：POST /blog/edit/:log_id
@@ -9,13 +11,17 @@
 - **创建评论**：POST /comments/update
 - **验证新用户**：POST /confirm/:user_id
 - **更新头像**：POST /user/image/update
+
 #### 管理页面包括：
+
 - **评论列表页**：GET /manage/comments
 - **日志列表页**：GET /blog/manage
 - **创建日志页**：GET /blog/create
 - **修改日志页**：GET /blog/edit/:log_id
 - **用户信息修改页**：GET /manage/users
+
 #### 用户浏览页面包括：
+
 - **注册页**：GET /register
 - **登录页**：GET /login
 - **注销页**：GET /logout
@@ -37,8 +43,12 @@
 
 ## 项目移植简介
 1.从github上下载项目
+
 2.创建数据库,该项目使用的是mysql数据库,sql脚本在migration文件夹下
+
 3.配置config.ini
+
 4.安装所需模块,创建表,运行migration下setups.py
+
 5.启动run.py进行测试
 
