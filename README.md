@@ -48,7 +48,7 @@
 
 3.配置config.ini
 
-4.安装所需模块,创建表,运行migration下setups.py
+4.安装所需模块,创建表,只需运行migration下setups.py即可
 
 5.启动run.py进行测试
 
